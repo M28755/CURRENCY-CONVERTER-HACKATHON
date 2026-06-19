@@ -533,3 +533,23 @@ main {
     border-radius: 10px;
     height: 377px;
 }
+
+/* --- Currency Dropdown Panel --- */
+.currency-dropdown {
+    background-color: var(--neutral-800);
+    border: 1px solid var(--neutral-700);
+    border-radius: var(--radius-12);
+    margin-top: var(--spacing-4);
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 10;
+    display: none;
+}
+
+.dropdown-header {
+    padding: var(--spacing-4);
+    border-bottom: 1px solid var(--neutral-700);
+    position: sticky;
+    top: 0;
+    background-color: var(--neutral-800);
+}

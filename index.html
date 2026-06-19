@@ -18,6 +18,7 @@
         rel="stylesheet">
 
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="Responsive.css">
 </head>
 
 <body>
@@ -33,7 +34,7 @@
                 <!-- right side -->
                 <div class="right-side">
                     <div class="total-currency">
-                        <span>55</span>
+                        <span id="total-currencies">55</span>
                         <span>CURRENCY</span>
                     </div>
 
@@ -85,7 +86,7 @@
                         </div>
 
                         <!-- swapping button -->
-                        <button class="swap-btn" title="Swap Currencies">
+                        <button class="swap-btn" id="swap-btn" title="Swap Currencies">
                             <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px"
                                 fill="#e3e3e3">
                                 <path
@@ -97,9 +98,9 @@
                         <div class="currency-input">
                             <label for="amount-input">RECEIVE</label>
                             <div class="currency-input-container">
-                                <input type="number" placeholder="853.02" id="amount-input"
+                                <input type="number" placeholder="853.02" id="receive-input"
                                     class=" receive amount-input">
-                                <button class="currency-select-btn" id="from-btn">
+                                <button class="currency-select-btn" id="to-btn">
                                     <span class="flag"></span>
                                     <span class="currency-code">EUR</span>
                                     <span class="dropdown-arrow">
@@ -129,6 +130,25 @@
                                 </svg>Log Conversion
                             </button>
 
+                        </div>
+                    </div>
+
+                    <div class="currency-dropdown" id="currency-dropdown">
+                        <div class="dropdown-header">
+                            <input type="text" class="search-input" placeholder="Search by code or name..."
+                                id="search-input">
+                        </div>
+
+                        <div class="currency-list-container">
+                            <h4>POPULAR</h4>
+                            <div class="currency-group" id="popular-currencies">
+                                <!-- Dynamic content goes here -->
+                            </div>
+
+                            <h4>OTHER CURRENCIES</h4>
+                            <div class="currency-group" id="other-currencies">
+                                <!-- Dynamic content goes here -->
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -169,54 +189,8 @@
 
             </section>
 
-            <!-- Currency Picker Model -->
-            <div class="model-overlay" id="currency-model">
-                <div class="model-content">
-                    <div class="model-header">
-                        <input type="text" id="search-input" placeholder="Search by code or name(e.g USD , Euro)..."
-                            id="search-input">
 
-                        <button class="close-btn" id="close-btn">&times;</button>
-                    </div>
-                    <div class="currency-list-container">
-                        <h4>Popular Currencies</h4>
 
-                        <div class="currency-group" id="popular-currencies">
-                            <div class="currency-row selected">
-                                <span class="flag"></span>
-                                <div class="currency-info">
-                                    <span class="code">USD</span>
-                                    <span class="name">United States Dollar</span>
-                                </div>
-                                <span class="check-mark">
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960"
-                                        width="20px" fill="#000000">
-                                        <path d="M389-267 195-460l51-52 143 143 325-324 51 51-376 375Z" />
-                                    </svg>
-                                </span>
-                            </div>
-                        </div>
-
-                        <h4>Other Currencies</h4>
-                        <div class="currency-group" id="other-currencies">
-                            <div class="currency-row">
-                                <span class="flag"></span>
-                                <div class="currency-info">
-                                    <span class="code">JPY</span>
-                                    <span class="name">Japanese Yen</span>
-                                </div>
-                                <span class="check-mark">
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960"
-                                        width="20px" fill="#000000">
-                                        <path d="M389-267 195-460l51-52 143 143 325-324 51 51-376 375Z" />
-                                    </svg>
-                                </span>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
         </main>
     </div>
 

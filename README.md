@@ -1,4 +1,4 @@
-# FX Checker — Currency Converter
+# FX Checker ï¿½ Currency Converter
 
 A sleek, dark-themed currency converter web app built for a hackathon. It fetches real-time and historical exchange rates from the **Frankfurter API** and presents them in a modern, minimal UI.
 
@@ -6,18 +6,18 @@ A sleek, dark-themed currency converter web app built for a hackathon. It fetche
 
 ## ?? Features
 
-- **Real-Time Currency Conversion** — Fetches live exchange rates on the fly
-- **Bidirectional Input** — Type in either the Send or Receive field and the other updates automatically
-- **Currency Swap** — One-click button to swap the From / To currency pair
-- **30-Day Historical Chart** — Interactive line chart (Chart.js) showing the past 30 days of rate data
-- **Currency Search Dropdown** — Searchable, scrollable list of all supported currencies grouped into Popular and Other
-- **Flag Emojis** — Country flags auto-generated from currency codes
-- **Favorites System** — Save currency pairs to LocalStorage
-- **Conversion Log** — Records recent conversions in LocalStorage
-- **Live Markets Ticker** — Header ticker strip showing live market label
-- **ECB Data Badge** — Shows the European Central Bank as the data source
-- **Dark Theme** — Deep neutral palette (`#0A0A0A` background) with lime-green (`#CEF739`) accents
-- **Responsive Layout** — Separate `Responsive.css` file ready for breakpoints
+- **Real-Time Currency Conversion**  Fetches live exchange rates on the fly
+- **Bidirectional Input**  Type in either the Send or Receive field and the other updates automatically
+- **Currency Swap**  One-click button to swap the From / To currency pair
+- **30-Day Historical Chart**  Interactive line chart (Chart.js) showing the past 30 days of rate data
+- **Currency Search Dropdown**  Searchable, scrollable list of all supported currencies grouped into Popular and Other
+- **Flag Emojis**  Country flags auto-generated from currency codes
+- **Favorites System**  Save currency pairs to LocalStorage
+- **Conversion Log**  Records recent conversions in LocalStorage
+- **Live Markets Ticker**  Header ticker strip showing live market label
+- **ECB Data Badge**  Shows the European Central Bank as the data source
+- **Dark Theme**  Deep neutral palette (`#0A0A0A` background) with lime-green (`#CEF739`) accents
+- **Responsive Layout**  Separate `Responsive.css` file ready for breakpoints
 
 ---
 
@@ -25,8 +25,8 @@ A sleek, dark-themed currency converter web app built for a hackathon. It fetche
 
 ```
 CURRENCY-CONVERTER/
-+-- index.html        # App markup — header, converter card, tabs, history chart
-+-- script.js         # All JS logic — API calls, DOM manipulation, chart rendering
++-- index.html        # App markup  header, converter card, tabs, history chart
++-- script.js         # All JS logic  API calls, DOM manipulation, chart rendering
 +-- styles.css        # Design system (CSS variables, all component styles)
 +-- Responsive.css    # Responsive/mobile overrides (in progress)
 +-- Algorithm.md      # Pseudocode walkthrough of the JS logic
@@ -44,11 +44,11 @@ CURRENCY-CONVERTER/
 - Live Markets ticker strip
 
 ### Converter Card (`CHECK THE RATE`)
-- **SEND** input — amount + From currency selector button
-- **? Swap Button** — swaps currency pair and refreshes rate
-- **RECEIVE** input — converted amount + To currency selector button
-- **Rate subtext** — e.g. `1 USD = 0.85300 EUR`
-- **Action buttons** — `? Favorite` (saves pair) and `+ Log Conversion`
+- **SEND** input amount + From currency selector button
+- **? Swap Button**  swaps currency pair and refreshes rate
+- **RECEIVE** input  converted amount + To currency selector button
+- **Rate subtext**  e.g. `1 USD = 0.85300 EUR`
+- **Action buttons**  `? Favorite` (saves pair) and `+ Log Conversion`
 
 ### Currency Dropdown
 - Triggered by clicking the From or To currency button
@@ -66,7 +66,7 @@ CURRENCY-CONVERTER/
 | LOG      | Recent conversion log with badge count  |
 
 ### History View (Active Tab)
-- **Stats Grid:** OPEN · LAST · CHANGE · % CHANGE (color-coded green/red)
+- **Stats Grid:** OPEN ï¿½ LAST ï¿½ CHANGE ï¿½ % CHANGE (color-coded green/red)
 - **Line Chart:** 30-day rate history using Chart.js
 
 ---
@@ -131,7 +131,7 @@ Defined in `styles.css` using CSS custom properties:
 | `currentFromCurrency` | `'USD'`  | The base currency                             |
 | `currentToCurrency`   | `'EUR'`  | The target currency                           |
 | `currentExchangeRate` | `0`      | Latest fetched rate                           |
-| `activePickerTarget`  | `null`   | `'from'` or `'to'` — which dropdown is open  |
+| `activePickerTarget`  | `null`   | `'from'` or `'to'` ï¿½ which dropdown is open  |
 | `historyChart`        | `null`   | Chart.js instance reference                   |
 
 ### LocalStorage keys
@@ -156,7 +156,7 @@ Defined in `styles.css` using CSS custom properties:
 
 ## ?? Running Locally
 
-No build step required — pure HTML/CSS/JS.
+No build step required  pure HTML/CSS/JS.
 
 1. Clone or download the repo
 2. Open `index.html` in any modern browser

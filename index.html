@@ -22,6 +22,7 @@
 </head>
 
 <body>
+    <div class="toast-container" id="toastContainer"></div>
     <div class="app-container">
         <!-- header -->
         <header class="app-header">
@@ -157,37 +158,74 @@
             </section>
             <!-- Navigation tabs -->
             <nav class="tabs-nav">
-                <button class="tab-btn active">HISTORY</button>
-                <button class="tab-btn">COMPARE</button>
-                <button class="tab-btn">FAVORITE <span class="badge">10</span></button>
-                <button class="tab-btn">LOG <span class="badge">8</span></button>
-
+                <button class="tab-btn active" data-target="history-view">HISTORY</button>
+                <button class="tab-btn" data-target="compare-view">COMPARE</button>
+                <button class="tab-btn" data-target="favorites-view">FAVORITE <span class="badge">0</span></button>
+                <button class="tab-btn" data-target="log-view">LOG <span class="badge">0</span></button>
             </nav>
             <!-- Hestory section -->
-            <section class="history-view active-view">
+            <section id="history-view" class="view active-view">
                 <div class="stats-grid">
                     <div class="stat-box">
                         <span class="stat-label">OPEN</span>
-                        <span class="stat-value">6789</span>
+                        <span class="stat-value" id="open-stat"></span>
                     </div>
                     <div class="stat-box">
                         <span class="stat-label">LAST</span>
-                        <span class="stat-value"></span>
+                        <span class="stat-value" id="last-stat"></span>
                     </div>
                     <div class="stat-box">
                         <span class="stat-label">CHANGE</span>
-                        <span class="stat-value positive">1234</span>
+                        <span class="stat-value" id="change-stat"></span>
                     </div>
                     <div class="stat-box">
                         <span class="stat-label ">% CHANGE</span>
-                        <span class="stat-value positive">12.11%</span>
+                        <span class="stat-value" id="percent-stat"></span>
                     </div>
                 </div>
                 <div class="chart-container">
+                    <!-- Chart Header Overlay -->
+                    <div class="chart-header">
+                        <div class="chart-left">
+                            <span id="chart-pair">USD/EUR</span>
+                        </div>
+                        <div class="chart-right">
+                            <span id="chart-rate">0.8530</span>
+                            <span id="chart-change" class="positive">0.0%</span>
+                            <span id="chart-time">MAY 14 16:00 CET</span>
+                        </div>
+                    </div>
+
+                    <!-- The Canvas -->
                     <canvas id="history-chart"></canvas>
                 </div>
 
             </section>
+
+            <!-- Compare section  -->
+            <section id="compare-view" class="view">
+                <div class="empty-state" style="text-align: center; padding: 40px; color: var(--neutral-500);">
+                    <h3>COMPARE</h3>
+                    <p>Comparison features coming soon...</p>
+                </div>
+            </section>
+
+            <!-- Favorites section -->
+            <section id="favorites-view" class="view">
+                <div class="empty-state" style="text-align: center; padding: 40px; color: var(--neutral-500);">
+                    <h3>FAVORITES</h3>
+                    <p>Click the "Favorite" button on a conversion to save it here!</p>
+                </div>
+            </section>
+
+            <!-- Log section -->
+            <section id="log-view" class="view">
+                <div class="empty-state" style="text-align: center; padding: 40px; color: var(--neutral-500);">
+                    <h3>LOG</h3>
+                    <p>Click the "Log Conversion" button to save your calculations here!</p>
+                </div>
+            </section>
+
 
 
 

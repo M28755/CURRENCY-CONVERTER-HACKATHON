@@ -9,8 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const fromBtn = document.getElementById('from-btn')
     const toBtn = document.getElementById('to-btn')
     const swapBtn = document.getElementById('swap-btn')
-    const sendAmountInput = document.getElementById('amount-input')
-    const receiveAmountInput = document.getElementById('receive-input')
     const rateSubtext = document.querySelector('.rate-subtext')
 
     // Initialize default send amount value
@@ -33,6 +31,37 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentExchangeRate = 0;
     let activePickerTarget = null;
     let historyChart = null;
+
+    amountInput.value = 1000;
+
+
+    function showToast(message, type = 'success') {
+
+        const toastContainer = document.getElementById('toastContainer')
+
+
+        //create dynamiic toast element
+        const toast = document.createElement('div')
+        toast.classList.add('toast', type)
+        toast.innerText = message;
+
+
+        toastContainer.appendChild(toast)
+
+        if (type == 'success') {
+            toast.style.background = ' #42eb05'
+        } else {
+            toast.style.background = '#ff4141'
+        }
+        setTimeout(() => {
+            toast.classList.add('hide');
+            toast.addEventListener('animationend', () => {
+                toast.remove()
+            })
+        }, 2000)
+
+    }
+
 
 
     //get fovarites from browser local storage
@@ -147,7 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     }
 
-    function handleCurrencySelect(currency) {
+    async function handleCurrencySelect(currency) {
         if (activePickerTarget === 'from') {
             currentFromCurrency = currency.code;
             updateButtonUI(fromBtn, currency.code)
@@ -158,8 +187,10 @@ document.addEventListener('DOMContentLoaded', () => {
         //close dropdown when the currency is clicked
         dropDown.style.display = 'none'
 
-        searchbar.value = ''
-        fetchLiveRate()
+        searchbar.value = '';
+        await fetchLiveRate()
+        await fetchHistoryData()
+
 
     }
     //converting currecy code into flag
@@ -222,6 +253,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Input event listeners for real-time conversion
     amountInput.addEventListener('input', () => {
         calculateConversion();
+
     });
 
     receiveInput.addEventListener('input', () => {
@@ -256,6 +288,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Fetch live rates for the new pair
         fetchLiveRate();
+        fetchHistoryData();
     });
 
 
@@ -275,6 +308,7 @@ document.addEventListener('DOMContentLoaded', () => {
             rateSubtext.textContent = `1 ${currentFromCurrency} = ${currentExchangeRate.toFixed(5)} ${currentToCurrency}`;
 
             calculateConversion()
+            await updatestats(data.date)
 
         } catch (error) {
             console.error("Failed to fetch live rates:", error);
@@ -293,8 +327,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const convertedAmount = (amount * currentExchangeRate).toFixed(2);
         receiveInput.value = convertedAmount;
 
-        console.log(receiveInput.value)
-        console.log(amountInput.value)
+        //console.log(receiveInput.value)
+        //console.log(amountInput.value)
     }
 
     //fetching history data
@@ -305,6 +339,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const formattedStartDate = startDate.toISOString().split('T')[0]
         const formattedEndDate = endDate.toISOString().split('T')[0]
+        /*  const formattedStartDate = startDate.toLocaleString('en-US', {
+             month: 'short',
+             day: 'numeric'
+         })
+         const formattedEndDate = endDate.toLocaleString('en-US', {
+            month: 'short',
+            day: 'numeric'
+
+        }) */
 
         console.log(`${formattedStartDate} --- ${formattedEndDate}`)
         try {
@@ -316,8 +359,16 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const data = await res.json()
-            console.log(data)
-            const chartLabels = data.map(item => item.date);
+
+            //formating  ISO to  localString
+            const formattedDate = (dateString) => {
+                return new Date(dateString).toLocaleString('en-US', {
+                    month: 'short',
+                    day: 'numeric'
+                })
+            }
+
+            const chartLabels = data.map(item => formattedDate(item.date));
             const chartData = data.map(item => item.rate);
 
             // console.log(chartData)
@@ -337,6 +388,38 @@ document.addEventListener('DOMContentLoaded', () => {
         if (historyChart) {
             historyChart.destroy();
         }
+        document.getElementById('chart-pair').textContent = `${currentFromCurrency}/${currentToCurrency}`
+
+        const latestRate = data[data.length - 1]
+
+        document.getElementById('chart-rate').textContent = latestRate.toFixed(4)
+
+        // Calculate 30-day change for the chart header
+        const firstRate = data[0]
+        console.log(firstRate)
+        const percentageChange = (((latestRate - firstRate) / firstRate) * 100).toFixed(2)
+        //console.log(`+${percentageChange}`)
+        const ChangeElement = document.getElementById('chart-change')
+
+        ChangeElement.textContent = (percentageChange >= 0 ? '+' : '') + `${percentageChange}` + '%'
+        if (percentageChange >= 0) {
+            ChangeElement.className = 'positive'
+        } else {
+            ChangeElement.className = 'negative'
+        }
+
+        // Set Timestamp
+        const now = new Date()
+        const formattedTime = now.toLocaleString('en-US', {
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true
+        })
+        document.getElementById('chart-time').textContent = formattedTime;
+
+        //console.log(formattedTime)
 
         historyChart = new Chart(ctx, {
             type: 'line',
@@ -348,23 +431,165 @@ document.addEventListener('DOMContentLoaded', () => {
                     borderColor: '#84CC16', // Lime 500
                     backgroundColor: 'rgba(132, 204, 22, 0.1)',
                     borderWidth: 1,
-                    pointRadius: 2,
-                    tension: 0.4
+                    pointRadius: 1.5,
+                    tension: 0.1,
+                    fill: true,
+                    pointHoverRadius: 3,
+                    pointHoverBackgroundColor: '#84CC16',
+                    pointHoverBorderColor: '#FFFFFF',
+
+
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                plugins: { legend: { display: false } },
+                interaction: {
+                    intersect: false,
+                    mode: 'index',
+                },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: '#18181B',
+                        titleColor: '#71717A',
+                        bodyColor: '#FFFFFF',
+                        borderColor: '#27272A',
+                        borderWidth: 1,
+                        padding: 18,
+                        displayColors: false,
+                        callbacks: {
+                            label: function (context) {
+                                return `Rate: ${context.parsed.y.toFixed(4)}`;
+                            }
+                        }
+                    }
+                },
                 scales: {
-                    x: { grid: { display: false }, ticks: { color: '#71717A' } },
-                    y: { grid: { color: '#27272A' }, ticks: { color: '#f8f8f8ff' } }
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            color: '#71717A',
+                            /* maxRotation: 0 */
+                        }
+                    },
+                    y: {
+                        grid: {
+                            color: '#27272A',
+                            drawBorder: false,
+                            drawTicks: false,
+
+                        },
+                        ticks: {
+                            color: '#f8f8f8ff',
+                            callback: function (value) { return value.toFixed(4); }
+                        }
+                    }
                 }
             }
         })
 
 
     }
+
+    async function updatestats(todayDate) {
+        const today = todayDate ? new Date(todayDate) : new Date();
+        const yesterday = new Date(today);
+        yesterday.setDate(today.getDate() - 1);
+
+        const yesterdayStr = yesterday.toISOString().split('T')[0];
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/rate/${currentFromCurrency}/${currentToCurrency}?date=${yesterdayStr}`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch yesterday\'s rate');
+            }
+
+            const data = await response.json()
+
+            // data.rate is a plain NUMBER from the API: { rate: 0.87044 }
+            const openRate = data.rate || currentExchangeRate;
+
+            const change = currentExchangeRate - openRate;             // keep as number for math
+            const percentChange = openRate > 0 ? (change / openRate) * 100 : 0;
+
+            document.getElementById('open-stat').textContent = openRate.toFixed(5);
+            document.getElementById('last-stat').textContent = currentExchangeRate.toFixed(5);
+
+            const changeElement = document.getElementById('change-stat');
+            const percentElement = document.getElementById('percent-stat');
+
+            changeElement.textContent = (change >= 0 ? '+' : '') + change.toFixed(5);
+            percentElement.textContent = (percentChange >= 0 ? '+' : '') + percentChange.toFixed(3) + '%';
+
+            const changeClassName = change >= 0 ? 'stat-value positive' : 'stat-value negative';
+            changeElement.className = changeClassName;
+            percentElement.className = changeClassName;
+
+        } catch (error) {
+            console.log('failed to fetch stats', error);
+        }
+    }
+
+    document.querySelector('.favorite-btn').addEventListener('click', () => {
+        const pair = `${currentFromCurrency}/${currentToCurrency}`;
+        if (!favorites.includes(pair)) {
+            favorites.push(pair);
+            localStorage.setItem('fx_favorites', JSON.stringify(favorites));
+            updateBadges();
+            showToast(`Added ${pair} to Favorites!`);
+        }
+
+    });
+    document.querySelector('.log-btn').addEventListener('click', () => {
+        const logEntry = {
+            from: currentFromCurrency,
+            to: currentToCurrency,
+            amount: amountInput.value,
+            result: receiveInput.value,
+            rate: currentExchangeRate,
+            date: new Date().toISOString()
+        };
+        logs.push(logEntry)
+        localStorage.setItem('fx_logs', JSON.stringify(logs))
+        updateBadges();
+        showToast(`Added ${currentFromCurrency}/${currentToCurrency} to logs!`)
+    })
+
+
+    function updateBadges() {
+        favoriteBadge.textContent = favorites.length;
+        logBadge.textContent = logs.length;
+
+    }
+    /* Navigation tabs */
+    // --- 11. Tab Navigation Toggle ---
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const viewSections = document.querySelectorAll('.view');
+
+    tabButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // 1. Remove 'active' class from all buttons
+            tabButtons.forEach(b => b.classList.remove('active'));
+
+            // 2. Add 'active' class to the clicked button
+            btn.classList.add('active');
+
+            // 3. Hide all views
+            viewSections.forEach(view => view.classList.remove('active-view'));
+
+            // 4. Get the target view from the button's data-target attribute
+            const targetId = btn.getAttribute('data-target');
+            const targetView = document.getElementById(targetId);
+
+            // 5. Show the target view
+            if (targetView) {
+                targetView.classList.add('active-view');
+            }
+        });
+    });
 
 
 

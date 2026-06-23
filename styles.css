@@ -129,7 +129,7 @@ body {
 }
 
 .toast.hide {
-    animation: slideOut 0.3s ease forwards;
+    animation: slideOut 1.3s ease forwards;
 }
 
 @keyframes slideOut {
@@ -139,7 +139,7 @@ body {
     }
 
     to {
-        transform: translateX(100%);
+        transform: translateX(-100%);
         opacity: 0;
     }
 }
@@ -868,32 +868,74 @@ main {
     background: var(--neutral-700);
 }
 
+.compare-row.pinned {
+    border-color: var(--lime-500);
+    background-color: rgba(132, 204, 22, 0.05);
+}
+
+.compare-row-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.compare-row-left .flag {
+    font-size: 1.3rem;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid var(--neutral-200);
+    border-radius: 50%;
+
+}
+
+.compare-currency-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.compare-currency-info .code {
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--neutral-50);
+    line-height: 120%;
+}
+
+.compare-currency-info .name {
+    font-size: 12px;
+    color: var(--neutral-200);
+    line-height: 120%;
+}
+
+
 .compare-row-right {
     display: flex;
     align-items: center;
-    gap: var(--spacing-6);
+    gap: 13px;
 }
 
 .converted-group {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    /* Aligns the numbers to the right */
-    gap: 2px;
+    gap: 8px;
 }
 
 .compare-converted {
-    font-size: 1.6rem;
+    font-size: 16px;
     font-weight: 700;
-    font-family: 'JetBrains Mono', monospace;
-    color: var(--neutral-100);
-    line-height: 1.1;
+    color: var(--neutral-50);
+    line-height: 120%;
 }
 
 .compare-rate {
-    font-size: 0.75rem;
-    color: var(--neutral-500);
-    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--neutral-200);
+    line-height: 100%;
+
 }
 
 .pin-btn {
@@ -902,7 +944,11 @@ main {
     cursor: pointer;
     color: var(--neutral-500);
     transition: transform 0.2s, color 0.2s;
-    padding: 0;
+    padding: 1px;
+    border: 1px solid var(--neutral-300);
+    border-radius: 5px;
+    width: 32px;
+    height: 32px;
 }
 
 .pin-btn:hover {
@@ -912,4 +958,6 @@ main {
 
 .pin-btn.active {
     color: var(--lime-500);
+    border-color: var(--lime-500);
+    background-color: var(--lime-100);
 }

@@ -596,6 +596,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const compareListEl = document.getElementById('compare-list');
 
     const compareTargets = ['EUR', 'GBP', 'JPY', 'AUD', 'CAD', 'CHF', 'CNY', 'INR'];
+    const TotalPairs = document.getElementById('total-pairs-value')
 
     async function fetchCompareRates() {
         const validTargets = compareTargets.filter(c => c !== currentFromCurrency);
@@ -683,6 +684,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 compareListEl.appendChild(row);
+                TotalPairs.textContent = validTargets.length;
             });
         } catch (error) {
             console.error("Failed to fetch compare rates:", error);

@@ -961,3 +961,112 @@ main {
     border-color: var(--lime-500);
     background-color: var(--lime-100);
 }
+
+/* --- Favorites View --- */
+.favorites-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-6);
+    padding-bottom: var(--spacing-4);
+    border-bottom: 1px solid var(--neutral-700);
+}
+
+.favorites-header h3 {
+    font-size: 1.2rem;
+    color: var(--neutral-500);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+.favorites-count {
+    font-size: 1rem;
+    color: var(--neutral-100);
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.favorites-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2);
+}
+
+.favorite-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--neutral-700);
+    border-radius: var(--radius-12);
+    padding: var(--spacing-4) var(--spacing-6);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.favorite-row:hover {
+    background-color: var(--neutral-800);
+    outline: 1px solid var(--neutral-700);
+}
+
+.fav-pair {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--neutral-100);
+    width: 150px;
+}
+
+.fav-separator {
+    color: var(--neutral-500);
+    font-weight: 400;
+}
+
+.fav-data {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: var(--spacing-6);
+}
+
+.fav-rate {
+    font-size: 1.2rem;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--neutral-100);
+}
+
+.fav-change {
+    font-size: 0.9rem;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+    width: 80px;
+    text-align: right;
+}
+
+.fav-change.positive {
+    color: var(--green-500);
+}
+
+.fav-change.negative {
+    color: var(--red-500);
+}
+
+.unpin-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #facc15;
+    /* Yellow star */
+    display: flex;
+    align-items: center;
+    transition: transform 0.2s;
+}
+
+.unpin-btn:hover {
+    transform: scale(1.2);
+}

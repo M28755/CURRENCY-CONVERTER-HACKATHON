@@ -191,7 +191,7 @@
                         </div>
                         <div class="chart-right">
                             <span id="chart-rate">0.8530</span>
-                            <span id="chart-change" class="positive">0.0%</span>
+
                             <span id="chart-time">MAY 14 16:00 CET</span>
                         </div>
                     </div>
@@ -227,9 +227,12 @@
 
             <!-- Favorites section -->
             <section id="favorites-view" class="view">
-                <div class="empty-state" style="text-align: center; padding: 40px; color: var(--neutral-500);">
-                    <h3>FAVORITES</h3>
-                    <p>Click the "Favorite" button on a conversion to save it here!</p>
+                <div class="favorites-header">
+                    <h3>CURRENCY PAIRS</h3>
+                    <span class="favorites-count">0 FAVORITES</span>
+                </div>
+                <div class="favorites-list" id="favorites-list">
+                    <!-- Dynamic favorite rows will go here -->
                 </div>
             </section>
 

@@ -290,6 +290,9 @@ document.addEventListener('DOMContentLoaded', () => {
         // Fetch live rates for the new pair
         fetchLiveRate();
         fetchHistoryData();
+
+        //compareBaseCurrencyEl.textContent = currentFromCurrency;
+        fetchCompareRates();
     });
 
 
@@ -400,14 +403,14 @@ document.addEventListener('DOMContentLoaded', () => {
         //console.log(firstRate)
         const percentageChange = (((latestRate - firstRate) / firstRate) * 100).toFixed(2)
         //console.log(`+${percentageChange}`)
-        const ChangeElement = document.getElementById('chart-change')
+        // const ChangeElement = document.getElementById('chart-change')
 
-        ChangeElement.textContent = (percentageChange >= 0 ? '+' : '') + `${percentageChange}` + '%'
-        if (percentageChange >= 0) {
+        // ChangeElement.textContent = (percentageChange >= 0 ? '+' : '') + `${percentageChange}` + '%'
+        /* if (percentageChange >= 0) {
             ChangeElement.className = 'positive'
         } else {
             ChangeElement.className = 'negative'
-        }
+        } */
 
         // Set Timestamp
         const now = new Date()
@@ -539,6 +542,7 @@ document.addEventListener('DOMContentLoaded', () => {
             favorites.push(pair);
             localStorage.setItem('fx_favorites', JSON.stringify(favorites));
             updateBadges();
+            renderFavorites()
             showToast(`Added ${pair} to Favorites!`);
         }
 
@@ -586,6 +590,9 @@ document.addEventListener('DOMContentLoaded', () => {
             // 5. Show the target view
             if (targetView) {
                 targetView.classList.add('active-view');
+            }
+            if (targetId === 'favorites-view') {
+                renderFavorites();
             }
         });
     });
@@ -691,6 +698,134 @@ document.addEventListener('DOMContentLoaded', () => {
             compareListEl.innerHTML = '<p style="color: var(--red-500); text-align: center;">Failed to load rates.</p>';
         }
     }
+
+    /* =============================
+    FAVORITE SECTION
+    ============================== */
+
+    async function renderFavorites() {
+        const favoriteCount = document.querySelector('.favorites-count')
+        const favoritesList = document.querySelector('.favorites-list')
+
+        const pairs = favorites.map(f => {
+            const [currentFromCurrency, currentToCurrency] = f.split('/')
+            return { currentFromCurrency, currentToCurrency }
+        })
+
+        console.log(pairs);
+
+        //lets get yesterday's date
+        const today = new Date();
+        const yesterday = new Date(today);
+        yesterday.setDate(today.getDate() - 1);
+        const yesterdayFormatted = yesterday.toISOString().split('T')[0];
+        console.log(yesterdayFormatted);
+        try {
+            // const histUrl = `https://api.frankfurter.dev/v2/rate/${currentFromCurrency}/${currentToCurrency}?date=${yesterdayFormatted}`;
+
+            // const data = await fetch(histUrl).then(res => res.json());
+
+            // console.log(data.date);
+
+            const fetchPromises = pairs.map(pair => {
+                const { currentFromCurrency: from, currentToCurrency: to } = pair
+                const liveUrl = `https://api.frankfurter.dev/v2/rate/${from}/${to}`;
+                const histUrl = `https://api.frankfurter.dev/v2/rate/${from}/${to}?date=${yesterdayFormatted}`;
+                return Promise.all([
+                    fetch(liveUrl).then(res => res.json()).then(d => d.rate || null).catch(() => null),
+                    fetch(histUrl).then(res => res.json()).then(d => {
+                        // console.log('Historical API response:', d);
+
+                        return d.rate || d.rates?.[to] || null;
+                    })
+
+                ]).then(([liveRate, oldRate]) => ({
+                    from,
+                    to,
+                    liveRate,
+                    oldRate,
+                }))
+            })
+            const result = await Promise.all(fetchPromises)
+            console.log(result, 'results');
+
+            favoritesList.innerHTML = "";
+
+            result.forEach(data => {
+
+                const { from, to, liveRate, oldRate } = data;
+                //console.log(from, to, liveRate, oldRate);
+
+                const change = oldRate ? (liveRate - oldRate) : 0;
+                const percentageChange = oldRate ? ((change / oldRate) * 100).toFixed(2) : 0;
+                const isPositive = change >= 0;
+
+                // console.log(`${from}/${to} | Live: ${liveRate} | Old: ${oldRate} | Change: ${change} | %: ${percentageChange} | Positive: ${isPositive}`)
+
+                const row = document.createElement('div')
+                row.className = "favorite-row";
+                row.innerHTML = `
+                <div class="fav-pair">
+                    <span class="fav-base">${from}</span>
+                    <span class="fav-separator">-</span>
+                    <span class="fav-quote">${to}</span>
+                </div>
+                <div class="fav-data">
+                    <span class="fav-rate">${liveRate.toFixed(4)}</span>
+                    <span class="fav-change ${isPositive ? 'positive' : 'negative'}">
+                        ${isPositive ? '▲' : '▼'} ${Math.abs(percentageChange)}%
+                    </span>
+                </div>
+                <button class="unpin-btn" title="Unpin from Favorites">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="currentColor">
+                        <path d="m233-120 65-281L80-590l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Z"/>
+                    </svg>
+                </button>
+            `;
+                row.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    if (e.target.closest('.unpin-btn')) return;
+
+                    // Strictly using our established variables!
+                    currentFromCurrency = from;
+                    currentToCurrency = to;
+
+                    updateButtonUI(fromBtn, from);
+                    updateButtonUI(toBtn, to);
+
+                    fetchLiveRate();
+                    fetchHistoryData();
+                    fetchCompareRates();
+
+                    // Switch back to the HISTORY tab
+                    document.querySelector('.tab-btn[data-target="history-view"]').click();
+
+                })
+                row.querySelector('.unpin-btn').addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    favorites = favorites.filter(f => f !== `${from}/${to}`);
+                    localStorage.setItem('fx_favorites', JSON.stringify(favorites));
+                    showToast(`${from} & ${to}  removed from Favorites!`, `error`);
+                    updateBadges();
+                    renderFavorites();
+                    fetchCompareRates()
+
+
+                })
+                favoritesList.appendChild(row);
+            })
+
+
+
+        } catch (error) {
+
+            console.error("Failed to fetch favorites:", error)
+
+        }
+
+    }
+
+
 
 
 

@@ -431,16 +431,28 @@ main {
 
 
 .currency-select-btn .flag {
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
-    background: red;
+    background: transparent;
 }
 
 .currency-code {
     font-size: 14px;
     line-height: 120%;
     letter-spacing: 1px;
+}
+
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
 }
 
 .converter-footer {
@@ -556,6 +568,32 @@ main {
 #history-view {
 
     gap: 12px;
+}
+
+.message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px;
+
+}
+
+.message h3 {
+    color: var(--neutral-50);
+    font-size: 20px;
+    line-height: 120%;
+    letter-spacing: 1px;
+
+}
+
+.message p {
+    color: var(--neutral-100);
+    font-size: 12px;
+    line-height: 120%;
+    letter-spacing: 1px;
+    opacity: 70%;
 }
 
 .stats-grid {
@@ -1130,42 +1168,49 @@ main {
 
 .log-header h3 {
     font-size: 16px;
-    color: var(--neutral-50);
+    line-height: 120%;
     letter-spacing: 1px;
     text-transform: uppercase;
     font-weight: 500;
-    line-height: 120%;
+    color: var(--neutral-50);
 }
 
 .log-controls {
     display: flex;
-    align-items: center;
     gap: 8px;
 }
 
 .log-count {
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--neutral-100);
-    font-family: 'JetBrains Mono', monospace;
-    line-height: 120%;
-    opacity: 70%;
-    gap: 4px;
     display: flex;
     flex-direction: row;
+    gap: 4px;
+}
+
+.log-count span {
+    color: var(--neutral-50);
+    font-size: 12px;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.log-count #log-count-num {
+    font-size: 12px;
+    font-weight: 700;
+
+    color: var(--neutral-200);
 }
 
 .clear-all-btn {
+    display: flex;
+    align-items: center;
     background: var(--neutral-600);
     border: 1px solid var(--neutral-400);
-    color: var(--neutral-100);
+    color: var(--neutral-50);
     padding: 6px 12px;
     border-radius: var(--radius-8);
-    cursor: pointer;
     font-size: 0.85rem;
     font-weight: 600;
+    cursor: pointer;
     transition: all 0.2s;
-    display: flex;
 }
 
 .clear-all-btn:hover {
@@ -1176,90 +1221,76 @@ main {
 .log-list {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-2);
-    margin-top: 20px;
     gap: 12px;
+    margin-top: 12px;
+
 }
 
 .log-row {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+
     background-color: var(--neutral-600);
     border: 1px solid var(--neutral-500);
     border-radius: var(--radius-12);
     padding: 16px 12px;
-
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    flex-direction: row;
+    gap: 10px;
+    flex: 1;
+    width: 100%;
+    justify-content: space-between;
 }
 
-.log-time {
-    font-size: 12px;
-    color: var(--neutral-200);
-    font-family: 'JetBrains Mono', monospace;
-    width: 60px;
-    line-height: 120%;
-    opacity: 70%;
+.log-row:hover {
+    background-color: var(--neutral-800);
+    outline: 1px solid var(--neutral-700);
 }
 
 .log-details {
     display: flex;
+    flex-direction: row;
     align-items: center;
-    gap: var(--spacing-6);
-    flex: 1;
-    margin-left: var(--spacing-4);
-}
 
-.log-pair {
-    font-size: 12px;
-    line-height: 120%;
-    opacity: 100%;
-    font-family: 'JetBrains Mono', monospace;
-    font-weight: 700;
-    color: var(--neutral-100);
-    width: 120px;
+    gap: 40px;
+    flex: 1;
+
 }
 
 .log-amounts {
     display: flex;
-    gap: var(--spacing-4);
-    color: var(--neutral-500);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    line-height: 120%;
-    opacity: 90%;
-    flex: 1;
-    justify-content: flex-end;
-    margin-right: 15px;
+    margin-right: 20px;
+    gap: 20px;
 }
 
-.log-amounts .send-amt {
-    color: var(--neutral-100);
-    font-weight: 700;
-    font-size: 16px;
-    line-height: 120%;
-    opacity: 100%;
-}
-
-.log-amounts .recv-amt {
+.recv-amt {
     color: var(--lime-500);
-    font-weight: 700;
-    font-size: 16px;
-    line-height: 120%;
-    opacity: 100%;
 }
 
 .delete-log-btn {
     background: transparent;
     border: 1px solid var(--neutral-500);
     cursor: pointer;
-    color: var(--neutral-50);
-    padding: 8px;
+    color: var(--neutral-100);
+    width: 30px;
+    height: 30px;
     display: flex;
     align-items: center;
-    transition: color 0.2s;
-    border-radius: var(--radius-12);
+    justify-content: center;
+    transition: all 0.2s;
+    border-radius: 4px;
 }
 
 .delete-log-btn:hover {
+    border-color: var(--red-500);
+    background: rgba(239, 68, 68, 0.1);
     color: var(--red-500);
+}
+
+.flag img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
 }

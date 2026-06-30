@@ -3,6 +3,7 @@
 
     body {
         padding: var(--spacing-100);
+        overflow-y: none;
     }
 
     .app-container {
@@ -120,10 +121,14 @@
 
 
     .converter-footer {
+        display: flex;
         flex-direction: column;
-        align-items: flex-start;
+        justify-content: flex-start;
+        align-items: center;
         gap: var(--spacing-150);
         padding: 14px 0;
+
+
     }
 
     .action-btns {
@@ -208,6 +213,60 @@
         width: 130px;
         font-size: 11px;
     }
+
+    .compare-header {
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .compare-header h3 #compare-base-amount,
+    .compare-header h3 #compare-base-currency {
+        font-size: 12px;
+
+    }
+
+    .compare-container {
+        padding: 12px;
+    }
+
+    .compare-converted {
+        font-size: 14px;
+    }
+
+    .log-conatiner {
+        padding: 10px;
+    }
+
+    .log-controls {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+    }
+
+    .log-row {
+        flex-direction: row;
+    }
+
+    .log-details {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .log-amounts {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        margin-right: 10px;
+    }
+
+    .recv-amt {
+        align-self: flex-end;
+
+    }
+
 }
 
 
@@ -333,6 +392,9 @@
     .rate-subtext {
         font-size: 11px;
         letter-spacing: 0.3px;
+
+        align-self: center;
+
     }
 
     .action-btns {
@@ -493,5 +555,9 @@
 
     .empty-state p {
         font-size: 12px;
+    }
+
+    .compare-container {
+        padding: 10px;
     }
 }

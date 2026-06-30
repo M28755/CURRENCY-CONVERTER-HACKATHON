@@ -73,7 +73,7 @@
                         <div class="currency-input">
                             <label for="amount-input">SEND</label>
                             <div class="currency-input-container">
-                                <input type="number" placeholder="1000" id="amount-input" class="amount-input">
+                                <input type="number" placeholder="0" id="amount-input" class="amount-input">
                                 <button class="currency-select-btn" id="from-btn">
                                     <span class="flag"></span>
                                     <span class="currency-code">USD</span>
@@ -169,6 +169,15 @@
             </nav>
             <!-- Hestory section -->
             <section id="history-view" class="view active-view">
+                <div class="message">
+                    <h3>No chart data available</h3>
+                    <p>We couldn't load rate history for USD/EUR right now.
+                        <br>
+                        This usually clears up in a minute.
+                    </p>
+                </div>
+
+
                 <div class="stats-grid">
                     <div class="stat-box">
                         <span class="stat-label">OPEN</span>
@@ -204,6 +213,7 @@
                     <canvas id="history-chart"></canvas>
                 </div>
 
+
             </section>
 
             <!-- Compare section  -->
@@ -212,7 +222,7 @@
                 <div class="compare-container">
                     <div class="compare-header">
                         <h3>
-                            <span id="title">MULTI-CURRENCY</span> <span id="compare-base-amount">1,000</span> FROM
+                            <span id="title">MULTI-CURRENCY</span> <span id="compare-base-amount"></span> FROM
                             <span id="compare-base-currency">USD</span>
                         </h3>
 
@@ -249,7 +259,10 @@
                     <div class="log-header">
                         <h3>CONVERSION LOG</h3>
                         <div class="log-controls">
-                            <span class="log-count"><span id="log-count-num"></span>LOGGED</span>
+                            <div class="log-count">
+                                <span id="log-count-num"></span>
+                                <span>LOGGED</span>
+                            </div>
                             <button class="clear-all-btn" id="clear-all-logs">CLEAR ALL</button>
                         </div>
                     </div>

@@ -131,6 +131,7 @@
 
     }
 
+
     .action-btns {
         width: 100%;
         gap: 8px;
@@ -172,8 +173,8 @@
     }
 
     .tabs-nav {
-        width: 100%;
-        gap: 4px;
+        display: none;
+
     }
 
     .tab-btn {
@@ -183,17 +184,21 @@
         white-space: nowrap;
     }
 
+    .mobile-nav {
+        display: block;
+    }
+
     .currency-dropdown {
         width: 100%;
-        left: 0 !important;
-        right: 0 !important;
-        top: 100%;
+
+        top: 30%;
+
         border-radius: var(--radius-12);
     }
 
     .currency-dropdown.align-right {
-        left: 0;
-        right: 0;
+        top: 50%;
+
     }
 
     .toast-container {
@@ -416,10 +421,7 @@
     }
 
     .tabs-nav {
-        width: 100%;
-        gap: 2px;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
+        display: none;
     }
 
     .tab-btn {
@@ -494,8 +496,13 @@
         max-height: 300px;
         left: 0 !important;
         right: 0 !important;
-        top: 100%;
+        top: 30%;
         border-radius: var(--radius-12);
+    }
+
+    .currency-dropdown.align-right {
+        top: 50%;
+
     }
 
     .search-input {

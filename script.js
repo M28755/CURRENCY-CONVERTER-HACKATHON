@@ -18,8 +18,8 @@ const otherList = document.getElementById('other-currencies')
 const totalCurrencies = document.getElementById('total-currencies')
 const favoriteBadge = document.querySelector('.tab-btn:nth-child(3) .badge')
 const logBadge = document.querySelector('.tab-btn:nth-child(4) .badge')
-
-
+const mobileFavoriteBadge = document.querySelector('#mobile-select option[value="favorites"]')
+const mobileLogBadge = document.querySelector('#mobile-select option[value="log"]')
 
 
 let Currencies = [];
@@ -58,6 +58,67 @@ function showToast(message, type = 'success') {
     }, 2000)
 
 }
+const mobileNavSelect = document.getElementById('mobile-select')
+const tabNavBtns = document.querySelectorAll('.mobile-nav-btn')
+const tabButtons = document.querySelectorAll('.tab-btn');
+const viewSections = document.querySelectorAll('.view');
+
+function switchView(targetId) {
+
+    viewSections.forEach(view => {
+        view.classList.remove('active-view')
+    })
+
+    const targetView = document.getElementById(targetId)
+    // console.log(targetView)
+    if (targetView) {
+        targetView.classList.add('active-view')
+    }
+
+    fetchHistoryData()
+    fetchCompareRates()
+    renderLogs()
+    renderFavorites()
+    updateBadges()
+
+
+}
+tabButtons.forEach(button => {
+    button.addEventListener('click', (e) => {
+
+        tabButtons.forEach(b => {
+            b.classList.remove('active')
+        });
+        button.classList.add('active');
+
+        const target = button.getAttribute('data-target')
+
+        const correspondingOption = Array.from(mobileNavSelect.options).find(option => {
+            option.getAttribute('data-target') === target
+        })
+        if (correspondingOption) {
+            mobileNavSelect.value = correspondingOption.value;
+        }
+        //  console.log(correspondingOption)
+        switchView(target)
+    })
+})
+mobileNavSelect.addEventListener('change', (e) => {
+    const selectedOption = mobileNavSelect.options[mobileNavSelect.selectedIndex]
+    const target = selectedOption.getAttribute('data-target')
+
+    tabButtons.forEach(btn => {
+        if (btn.getAttribute('data-target') === target) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
+        }
+    });
+
+    switchView(target);
+})
+
+
 
 
 
@@ -673,42 +734,9 @@ document.querySelector('.log-btn').addEventListener('click', () => {
 function updateBadges() {
     favoriteBadge.textContent = favorites.length;
     logBadge.textContent = logs.length;
-
+    mobileFavoriteBadge.textContent = `FAVORITES (${favorites.length})`;
+    mobileLogBadge.textContent = `LOGS (${logs.length})`;
 }
-/* Navigation tabs */
-const tabButtons = document.querySelectorAll('.tab-btn');
-const viewSections = document.querySelectorAll('.view');
-
-tabButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-        // 1. Remove 'active' class from all buttons
-        tabButtons.forEach(b => b.classList.remove('active'));
-
-        // 2. Add 'active' class to the clicked button
-        btn.classList.add('active');
-
-        // 3. Hide all views
-        viewSections.forEach(view => view.classList.remove('active-view'));
-
-        // 4. Get the target view from the button's data-target attribute
-        const targetId = btn.getAttribute('data-target');
-        const targetView = document.getElementById(targetId);
-
-        // 5. Show the target view
-        if (targetView) {
-            targetView.classList.add('active-view');
-        }
-        if (targetId === 'favorites-view') {
-            renderFavorites();
-        }
-        if (targetId === 'logs-view') {
-            renderLogs();
-        }
-        if (targetId === 'compare-view') {
-            fetchCompareRates();
-        }
-    });
-});
 
 /* =============================
 COMPARE CURRENCIES
@@ -948,6 +976,7 @@ async function renderFavorites() {
 
                 // Switch back to the HISTORY tab
                 document.querySelector('.tab-btn[data-target="history-view"]').click();
+                document.querySelector('.mobile-nav-btn[data-target="history-view"]').click();
 
             })
             row.querySelector('.unpin-btn').addEventListener('click', (e) => {

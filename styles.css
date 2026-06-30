@@ -564,6 +564,70 @@ input[type=number] {
     font-weight: 600;
 }
 
+.mobile-nav {
+    display: none;
+
+    margin: 15px;
+}
+
+.select-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+
+#mobile-select {
+    width: 100%;
+    padding: 12px 40px 12px 16px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: #2d3748;
+    background: var(--neutral-700);
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+#mobile-select:hover {
+    border-color: var(--neutral-500);
+    background-color: var(--neutral-600);
+}
+
+#mobile-select:focus {
+    outline: none;
+    border-color: var(--lime-500);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+
+.select-wrapper::after {
+    content: "";
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    border-right: 2px solid var(--neutral-100);
+    border-bottom: 2px solid var(--neutral-100);
+    transform: translateY(-70%) rotate(45deg);
+    pointer-events: none;
+    transition: border-color 0.2s ease;
+}
+
+.select-wrapper:hover::after {
+    border-color: var(--neutral-50);
+}
+
+
+
+
 /*  <!-- Hestory section --> */
 #history-view {
 

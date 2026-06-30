@@ -167,6 +167,25 @@
                 <button class="tab-btn" data-target="favorites-view">FAVORITE <span class="badge">0</span></button>
                 <button class="tab-btn" data-target="log-view">LOG <span class="badge">0</span></button>
             </nav>
+            <!-- mobile navigtion selection -->
+            <div class="mobile-nav">
+                <div class="select-wrapper">
+                    <select name="" id="mobile-select" class="mobile-select">
+                        <option value="history" data-target="history-view" class="mobile-nav-btn active">HISTORY
+                        </option>
+                        <option value="compare" data-target="compare-view" class="mobile-nav-btn">COMPARE</option>
+                        <option value="favorites" data-target="favorites-view" class="mobile-nav-btn">
+                            FAVORITE (0)
+
+                        </option>
+                        <option value="log" data-target="log-view" class="mobile-nav-btn">
+                            LOG (0)
+
+                        </option>
+                    </select>
+                </div>
+
+            </div>
             <!-- Hestory section -->
             <section id="history-view" class="view active-view">
                 <div class="message">
